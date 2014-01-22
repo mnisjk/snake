@@ -3,6 +3,10 @@ snake
 
 A simple terminal based snake game written in c with ncurses. Uses vim style 'hjkl' to move around (or the arrow keys if you please).
 
+### Screenshot
+
+![screenshot](https://raw2.github.com/mnisjk/snake/master/screenshot.png)
+
 ### How to compile & run
 
 ```
