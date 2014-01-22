@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <time.h>
 
-
 WINDOW * mainwin;
 int oldcur, width, height, score = 0;
 typedef struct {
@@ -16,7 +15,6 @@ pos fruit;
 
 // 2D array of all spaces on the board.
 bool *spaces;
-
 
 // --------------------------------------------------------------------------
 // Queue stuff
@@ -29,7 +27,6 @@ struct s_node
     struct s_node *next;
 } *front=NULL, *back=NULL;
 typedef struct s_node node;
-
 
 // Returns the position at the front w/o dequeing
 pos* peek( )
@@ -84,14 +81,19 @@ void snake_draw_board( )
         mvwaddstr( mainwin, 0, i,        "X" );
         mvwaddstr( mainwin, height-1, i, "X" );
     }
-    mvwaddstr( mainwin, height+1, 2, "Score: " );
+    mvwaddstr( mainwin, height+1, 2, "Score:" );
 }
 
 // Resets the terminal window and clears up the mem
 void snake_game_over( )
 {
-    //**TODO free memory here
-    mvwaddstr( mainwin, 2, 2, "GAME OVER" );
+    free( spaces );
+    while( front )
+    {
+        node *n = front;
+        front = front->next;
+        free( n );
+    }
     endwin();
     exit(0);
 }
@@ -99,7 +101,7 @@ void snake_game_over( )
 // Is the current position in bounds?
 bool snake_in_bounds( pos position )
 {
-    return position.y < height && position.y > 0 && position.x < width && position.x > 0;
+    return position.y < height - 1 && position.y > 0 && position.x < width - 1 && position.x > 0;
 }
 
 // 2D matrix of possible positions implemented with a 1D array. This maps
@@ -120,21 +122,21 @@ pos snake_index_to_coordinate( int index )
 // Draw the fruit somewhere randomly on the board
 void snake_draw_fruit( )
 {
-    attrset(COLOR_PAIR(3));
+    attrset( COLOR_PAIR( 3 ) );
     int idx;
     do
     {
         idx = rand( ) % ( width * height );
         fruit = snake_index_to_coordinate( idx );
     }
-    while( spaces[idx] && !snake_in_bounds( fruit ) );    
+    while( spaces[idx] || !snake_in_bounds( fruit ) );    
     mvwaddstr( mainwin, fruit.y, fruit.x, "F" );
 }
 
 // Handles moving the snake for each iteration
 bool snake_move_player( pos head )
 {
-    attrset( COLOR_PAIR( 1) ) ;
+    attrset( COLOR_PAIR( 1 ) ) ;
     
     // Check if we ran into ourself
     int idx = snake_cooridinate_to_index( head );
@@ -169,7 +171,7 @@ bool snake_move_player( pos head )
 
 }
 
-int main(int argc, char *argv[])
+int main( int argc, char *argv[] )
 {
     int key = KEY_RIGHT;
     if( ( mainwin = initscr() ) == NULL ) {
@@ -178,32 +180,30 @@ int main(int argc, char *argv[])
     }
     
     // Set up
-    srand( time( NULL) );
+    srand( time( NULL ) );
     noecho( );
     curs_set( 2 );
     halfdelay( 1 );
     keypad( mainwin, TRUE );
     oldcur = curs_set( 0 );
     start_color( );
-    init_pair( 1, COLOR_RED,     COLOR_BLACK);
-    init_pair( 2, COLOR_GREEN,   COLOR_BLACK);
-    init_pair( 3, COLOR_YELLOW,  COLOR_BLACK);
-    init_pair( 4, COLOR_BLUE,    COLOR_BLACK);
-    init_pair( 5, COLOR_CYAN,    COLOR_BLACK);
-    init_pair( 6, COLOR_MAGENTA, COLOR_BLACK);
-    init_pair( 7, COLOR_WHITE,   COLOR_BLACK);
-    getmaxyx( mainwin, height, width);
+    init_pair( 1, COLOR_RED,     COLOR_BLACK );
+    init_pair( 2, COLOR_GREEN,   COLOR_BLACK );
+    init_pair( 3, COLOR_YELLOW,  COLOR_BLACK );
+    init_pair( 4, COLOR_BLUE,    COLOR_BLACK );
+    init_pair( 5, COLOR_CYAN,    COLOR_BLACK );
+    init_pair( 6, COLOR_MAGENTA, COLOR_BLACK );
+    init_pair( 7, COLOR_WHITE,   COLOR_BLACK );
+    getmaxyx( mainwin, height, width );
     
-    // Only take up the top quarter
-    width/=2;
-    height/=2;
-    
+    width=70;
+    height=25; 
     // Set up the 2D array of all spaces
     spaces = (bool*) malloc( sizeof( bool ) * height * width );
 
     snake_draw_board( );
     snake_draw_fruit( );
-    pos head = { 20,20 };
+    pos head = { 5,5 };
     enqueue( head );
     
     // Event loop
