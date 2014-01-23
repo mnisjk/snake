@@ -22,7 +22,7 @@ bool *spaces;
 // Queue implemented as a doubly linked list
 struct s_node
 {
-    pos *position;
+    pos *position; // **TODO: make this a void pointer for generality.
     struct s_node *prev;
     struct s_node *next;
 } *front=NULL, *back=NULL;
