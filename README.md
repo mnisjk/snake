@@ -5,7 +5,7 @@ A simple terminal based snake game written in c with ncurses. Uses vim style 'hj
 
 ### Screenshot
 
-![screenshot](https://raw2.github.com/mnisjk/snake/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/mnisjk/snake/master/screenshot.png)
 
 ### How to compile & run
 
