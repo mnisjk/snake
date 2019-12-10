@@ -1,3 +1,5 @@
+[![Run on Repl.it](https://repl.it/badge/github/mnisjk/snake)](https://repl.it/github/mnisjk/snake)
+
 snake
 =====
 
