@@ -227,21 +227,29 @@ int main( int argc, char *argv[] )
             case KEY_DOWN:
             case 'k':
             case 'K':
+            case 's':
+            case 'S':
                 head.y++;
                 break;
             case KEY_RIGHT:
             case 'l':
             case 'L':
+            case 'd':
+            case 'D':
                 head.x++;
                 break;
             case KEY_UP:
             case 'j':
             case 'J':
+            case 'w':
+            case 'W':
                 head.y--;
                 break;
             case KEY_LEFT:
             case 'h':
             case 'H':
+            case 'a':
+            case 'A':
                 head.x--;
                 break;
 
