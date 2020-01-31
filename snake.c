@@ -225,8 +225,8 @@ int main( int argc, char *argv[] )
         switch( key )
         {
             case KEY_DOWN:
-            case 'k':
-            case 'K':
+            case 'j':
+            case 'J':
             case 's':
             case 'S':
                 head.y++;
@@ -239,8 +239,8 @@ int main( int argc, char *argv[] )
                 head.x++;
                 break;
             case KEY_UP:
-            case 'j':
-            case 'J':
+            case 'k':
+            case 'K':
             case 'w':
             case 'W':
                 head.y--;
