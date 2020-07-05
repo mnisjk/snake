@@ -143,7 +143,7 @@ void snake_draw_fruit( )
 }
 
 // Handles moving the snake for each iteration
-bool snake_move_player( pos head )
+void snake_move_player( pos head )
 {
     attrset( COLOR_PAIR( 1 ) ) ;
     
@@ -178,6 +178,46 @@ bool snake_move_player( pos head )
     attrset( COLOR_PAIR( 2 ) );
     snake_write_text( g_height+1, 9, buffer );
 
+}
+
+bool valid( int in, int key )
+{
+    switch( in )
+    {
+        case KEY_DOWN:
+        case 'j':
+        case 'J':
+        case 's':
+        case 'S':
+            if ( key != KEY_UP && key != 'k' && key != 'K' && key != 'w' && key != 'W' )
+                return true;
+            break;
+        case KEY_RIGHT:
+        case 'l':
+        case 'L':
+        case 'd':
+        case 'D':
+            if ( key != KEY_LEFT && key != 'h' && key != 'H' && key != 'a' && key != 'A' )
+                return true;
+            break;
+        case KEY_UP:
+        case 'k':
+        case 'K':
+        case 'w':
+        case 'W':
+            if ( key != KEY_DOWN && key != 'j' && key != 'J' && key != 's' && key != 'S' )
+                return true;
+            break;
+        case KEY_LEFT:
+        case 'h':
+        case 'H':
+        case 'a':
+        case 'A':
+            if ( key != KEY_RIGHT && key != 'l' && key != 'L' && key != 'd' && key != 'D' )
+                return true;
+            break;
+    }
+    return false;
 }
 
 int main( int argc, char *argv[] )
@@ -220,7 +260,10 @@ int main( int argc, char *argv[] )
     while( 1 )
     {
         int in = getch( );
-        if( in != ERR )
+        if( in == 0x1b ) {
+            snake_game_over( );
+        }
+        if( in != ERR && valid( in, key ) )
             key = in;
         switch( key )
         {
